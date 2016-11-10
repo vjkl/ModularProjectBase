@@ -17,7 +17,7 @@ namespace AppShell
 
     protected override void Configure()
     {
-      Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en");
+      //Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en");
     }
 
     protected override object GetInstance(Type service, string key)
