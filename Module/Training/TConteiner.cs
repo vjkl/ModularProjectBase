@@ -1,34 +1,34 @@
 ﻿using Caliburn.Micro;
 using Module.Utils;
+using Module.Validator;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.Linq;
 
 namespace Module.Training
 {
-  public interface ISetsHolder
+  public class TConteiner : PropertyChangedBase
   {
-    void OnChanges();
-  }
-
-  public class TConteiner : PropertyChangedBase, ISetsHolder
-  {
+    private int _minCountPullUps = 1;
+    private int _maxCountPullUps = 20;
+    private int _averageCountPullUps = 4;
     public bool isChange = false;
-    private FileIO fileIO = new FileIO();
-    private JsonIO jsonIO = new JsonIO();
-    private TLoader tLoader = new TLoader();
 
     public delegate void DataChangesEventHandler();
     public event DataChangesEventHandler DataChanged;
-    protected virtual void OnDataChange()
+    public virtual void OnDataChange()
     {
       DataChanged?.Invoke();
     }
 
-    public void OnChanges()
+    public void OnCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
-      OnDataChange();
+      System.Collections.Specialized.NotifyCollectionChangedAction action = e.Action;
+      isChange = true;
     }
 
     private ObservableCollection<TItem> _trainingSet;
@@ -44,126 +44,107 @@ namespace Module.Training
       }
     }
 
-    private ObservableCollection<OneSet> _generateCountTrainingSets;
-    public ObservableCollection<OneSet> GenerateCountTrainingSets
+    private TItem _selectedTItem;
+    public TItem SelectedTItem
     {
-      get { return _generateCountTrainingSets ?? (_generateCountTrainingSets = new ObservableCollection<OneSet>()); }
-
+      get { return _selectedTItem ?? (_selectedTItem = new TItem()); }
       set
       {
-        if (_generateCountTrainingSets == value) return;
-        _generateCountTrainingSets = value;
-        NotifyOfPropertyChange(() => GenerateCountTrainingSets);
+        if (_selectedTItem == value) return;
+        _selectedTItem = value;
+        if (SelectedTItem != null)
+          CountPullUps = SelectedTItem.Sets.Count;
+        NotifyOfPropertyChange(() => SelectedTItem);
+        NotifyOfPropertyChange(() => CountPullUps);
         OnDataChange();
-      }
+       }
     }
 
-    private string _countPullUps = "4";
-    public string CountPullUps
+    private int _countPullUps;
+    public int CountPullUps
     {
-      get { return _countPullUps; }
+      get { return _countPullUps != default(int) ? _countPullUps : (_countPullUps = _averageCountPullUps); }
       set
       {
         if (_countPullUps == value) return;
         {
-          string countPullUps = StringUtils.GetAllNumberFromString(value);
-          if (!string.IsNullOrEmpty(countPullUps))
+          if (value > 0)
           {
-            _countPullUps = countPullUps;
-            int intCountSets = Convert.ToInt32(countPullUps);
-            TraningChangeSets(intCountSets);
+            _countPullUps = GetCountPullUps(value);
+            ChangeCountSets(SelectedTItem);
             NotifyOfPropertyChange(() => CountPullUps);
+            NotifyOfPropertyChange(() => SelectedTItem);
             OnDataChange();
           }
         }
       }
     }
 
-    public void InitTrainingSets()
+    private int GetCountPullUps(int countPullUps)
     {
-      GenerateCountTrainingSets = new ObservableCollection<OneSet>();
-      AddSet(Convert.ToInt32(CountPullUps));
-      TrainingSets = tLoader.InitTrainingSets();
+      if (countPullUps > _maxCountPullUps)
+        return _maxCountPullUps;
+      else if (countPullUps < _minCountPullUps)
+        return _minCountPullUps;
+      else return countPullUps;
     }
 
     public void Remove(TItem trainingItem)
     {
       TrainingSets.Remove(trainingItem);
-      isChange = true;
+      NotifyOfPropertyChange(() => SelectedTItem);
       OnDataChange();
     }
 
-    public void Pluss()
+    public void Add()
     {
-      if (GenerateCountTrainingSets.Count > 0)
-      {
-        TrainingSets.Add(GetSets(GenerateCountTrainingSets));
-      }
-      GenerateCountTrainingSets.Apply(x => x.Clear());
-      isChange = true;
-      OnDataChange();
-    }
-
-    public void AddSet(int amountSets)
-    {
-      while (amountSets > 0)
-      {
-        GenerateCountTrainingSets.Add(new OneSet(this));
-        amountSets--;
-      }
-    }
-
-    public void TraningChangeSets(int countSets)
-    {
-      GenerateCountTrainingSets.Clear();
-      AddSet(countSets);
-    }
-
-    public void LoadFromFile()
-    {
-      Pluss();
-      TrainingSets = tLoader.Load(GetPathToFileFromDialog());
-      isChange = false;
-      OnDataChange();
-    }
-
-    public void SaveToFile()
-    {
-      tLoader.Save(TrainingSets);
-      isChange = false;
-      OnDataChange();
-    }
-
-    private TItem GetSets(ObservableCollection<OneSet> generateCountTrainingSets)
-    {
-      List<int> listPullUps = new List<int>();
-      for (int i = 0; generateCountTrainingSets.Count > i; ++i)
-        listPullUps.Add(GetSet(generateCountTrainingSets[i].Count));
-      return new TItem(listPullUps);
-    }
-
-    private int GetSet(string set)
-    {
-      if (!string.IsNullOrEmpty(set) && StringUtils.CheckStringISNumber(set))
-        return Convert.ToInt32(set);
+      if (SelectedTItem.Sets.Count != 0)
+        TrainingSets.Add(ChangeCountSets(new TItem()));
       else
-        return 0;
+        TrainingSets.Add(ChangeCountSets(new TItem()));
+      OnDataChange();
     }
 
-    private string GetPathToFileFromDialog()
+    public void Clear()
     {
-      System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();
+      TrainingSets.Clear();
+      OnDataChange();
+    }
 
-      openFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
-      openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-      openFileDialog.FilterIndex = 2;
-      openFileDialog.RestoreDirectory = true;
+    public void AddRange(IList<TItem> items)
+    {
+      SelectedTItem.Sets.Apply(x => x = new OneSet());
+      if (items.Count != default(int))
+        Clear();
+      foreach (var item in items)
+        TrainingSets.Add(new TItem(item.Sets));
+      isChange = false;
+      OnDataChange();
+    }
 
-      if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-      {
-        return openFileDialog.FileName;
-      }
-      return string.Empty;
+    public TItem ChangeCountSets(TItem tItem)
+    {
+      int amountSets = GetAmountSets(tItem);
+      ChangeCountSets(tItem, amountSets);
+      NotifyOfPropertyChange(() => TrainingSets);
+      foreach (var item in TrainingSets)
+        NotifyOfPropertyChange(() => item);
+      return tItem;
+    }
+
+    private int GetAmountSets(TItem tItem)
+    {
+      if (tItem == null && tItem.Sets.Count == default(int))
+        return default(int);
+      return tItem.Sets.Count;
+    }
+
+    private void ChangeCountSets(TItem tItem, int amountSets)
+    {
+      for (int i = amountSets; i < _countPullUps; i++)
+        tItem.Add(new OneSet());
+      for (int i = amountSets; i > _countPullUps; i--)
+        tItem.Remove(tItem.Sets[tItem.Sets.Count - 1]);
     }
   }
 }

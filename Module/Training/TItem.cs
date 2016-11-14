@@ -1,22 +1,48 @@
-﻿using System;
+﻿using Caliburn.Micro;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Module.Training
 {
-  public class TItem
+  [JsonObject(MemberSerialization.OptIn)]
+  public class TItem : PropertyChangedBase
   {
-    private DateTime  _trainingDate { get; set; }
-    private List<int> _sets         { get; set; }
-    private int       _totalCount   { get; set; }
 
     public TItem() { }
-    public TItem(List<int> sets)
+    public TItem(ObservableCollection<OneSet> sets)
     {
       TrainingData = DateTime.Now;
-      Sets = sets;
-      TotalCount = GetSumPullUps(sets);
+      sets.Apply(set => Add(set));
+      TotalCount = GetSumPullUps();
     }
 
+    public void RefreshSets()
+    {
+      NotifyOfPropertyChange(() => Sets);
+      TotalCount = GetSumPullUps();
+      NotifyOfPropertyChange(() => TotalCount);
+    }
+
+    public void Add(OneSet item)
+    {
+      if (item == null) return;
+      Sets.Add(item);
+      item.CountChanged += RefreshSets;
+      RefreshSets();
+    }
+
+    public void Remove(OneSet item)
+    {
+      if (item == null) return;
+      item.CountChanged -= RefreshSets;
+      Sets.Remove(item);
+      RefreshSets();
+    }
+
+    private DateTime _trainingDate;
+    [JsonProperty]
     public DateTime TrainingData
     {
       get { return _trainingDate; }
@@ -27,16 +53,21 @@ namespace Module.Training
       }
     }
 
-    public List<int> Sets
+    private ObservableCollection<OneSet> _sets;
+    [JsonProperty]
+    public ObservableCollection<OneSet> Sets
     {
-      get { return _sets; }
+      get { return _sets ?? (Sets = new ObservableCollection<OneSet>()); }
       set
       {
         if (_sets == value) return;
         _sets = value;
+        RefreshSets();
       }
     }
 
+    private int _totalCount;
+    [JsonProperty]
     public int TotalCount
     {
       get { return _totalCount; }
@@ -44,16 +75,15 @@ namespace Module.Training
       {
         if (_totalCount == value) return;
         _totalCount = value;
+        NotifyOfPropertyChange(() => TotalCount);
       }
     }
 
-    private int GetSumPullUps(List<int> sets)
+    public int GetSumPullUps()
     {
       int sum = 0;
-      foreach(int set in sets)
-      {
-        sum += set;
-      }
+      foreach (OneSet set in Sets)
+        sum += set.Count;
       return sum;
     }
   }

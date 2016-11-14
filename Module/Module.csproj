@@ -93,6 +93,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Training\TManager.cs" />
+    <Compile Include="Utils\DialogUtil.cs" />
     <Compile Include="Validator\PropertyValidationError.cs" />
     <Compile Include="Validator\IValidator.cs" />
     <Compile Include="Convertors\DateToString.cs" />

@@ -10,16 +10,9 @@ namespace Module.Training
 
     public static ObservableCollection<TItem> Empty => new ObservableCollection<TItem>();
 
-    public ObservableCollection<TItem> InitTrainingSets()
+    public bool Create(string path)
     {
-      string listTrainingSets = fileIO.InitFile();
-      if (!string.IsNullOrEmpty(listTrainingSets))
-      {
-        var trainingSets = jsonIO.DeserializeObject<ObservableCollection<TItem>>(listTrainingSets);
-        if (trainingSets != null)
-          return trainingSets;
-      }
-      return Empty;
+      return fileIO.Create(path);
     }
 
     public ObservableCollection<TItem> Load(string path)
@@ -32,9 +25,9 @@ namespace Module.Training
         return Empty;
     }
 
-    public void Save(ObservableCollection<TItem> trainingSet)
+    public void Save(ObservableCollection<TItem> trainingSet, string pathToListTrainings)
     {
-      fileIO.Save(jsonIO.SerializeObject(trainingSet));
+      fileIO.Save(jsonIO.SerializeObject(trainingSet), pathToListTrainings);
     }
   }
 }

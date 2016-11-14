@@ -9,18 +9,14 @@ namespace Module.Utils
 {
   public class FileIO
   {
-    private static string _NameFileWithListTrainings = "ListTrainings.txt"                                                ;
-    private string _pathToListTrainings              = Directory.GetCurrentDirectory() + "\\" + _NameFileWithListTrainings;
-
-    public string InitFile()
+    public bool Create(string path)
     {
-      if (File.Exists(_pathToListTrainings))
+      if (!File.Exists(path))
       {
-        return Read(_pathToListTrainings);
+        File.WriteAllText(path, "", Encoding.UTF8);
+        return true;
       }
-      else
-        File.WriteAllText(_pathToListTrainings, "", Encoding.UTF8);
-      return string.Empty;
+      return false;
     }
 
     public string Read(string path)
@@ -31,33 +27,23 @@ namespace Module.Utils
 
     public string Load(string path)
     {
-        SetNewPathToListTrainings(path);
-        return Read(path);
+      return Read(path);
     }
 
-    public void Save(string contents)
+    public void Save(string contents, string path)
     {
-      if (File.Exists(_pathToListTrainings))
+      if (File.Exists(path))
       {
-        if (contents != "[]")
+        if (contents == "[]")
+          contents = "";
+        try
         {
-          try
-          {
-            File.WriteAllText(_pathToListTrainings, contents, Encoding.UTF8);
-          }
-          catch (UnauthorizedAccessException ex)
-          {
-            MessageBox.Show(ex.Message);
-          }
+          File.WriteAllText(path, contents, Encoding.UTF8);
         }
-      }
-    }
-
-    private void SetNewPathToListTrainings(string newPathToListTrainings)
-    {
-      if (!string.IsNullOrEmpty(newPathToListTrainings))
-      {
-        _pathToListTrainings = newPathToListTrainings;
+        catch (UnauthorizedAccessException ex)
+        {
+          MessageBox.Show(ex.Message);
+        }
       }
     }
   }

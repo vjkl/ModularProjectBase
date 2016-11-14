@@ -29,11 +29,11 @@
 
         <StackPanel Orientation="Horizontal">
             <Label Foreground="#FFBCC32C">Input the number of pull-ups (max 20):</Label>
-            <TextBox x:Name="textBoxInputCountSets" HorizontalAlignment="Left" Height="20" Margin="5,5,0,0" 
-                 TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Grid.Column="0" Grid.Row="0" MaxLines="1"
+            <TextBox HorizontalAlignment="Left" Height="20" Margin="5,5,0,0" 
+                 TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Grid.Column="0" Grid.Row="0"
                  Text="{Binding tConteiner.CountPullUps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
-        <ItemsControl ItemsSource="{Binding GenerateCountTrainingSets}" DataContext="{Binding tConteiner}" Grid.Row="0" Margin="0,50,0,0">
+        <ItemsControl ItemsSource="{Binding SelectedTItem.Sets, Mode=TwoWay}" DataContext="{Binding tConteiner}" Grid.Row="0" Margin="0,50,0,0">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <TextBox Margin="5,0,0,0" Width="50" Height="10" 
@@ -58,12 +58,12 @@
                 HorizontalAlignment="Left"/>
         <Button x:Name="button" Content="✔" HorizontalAlignment="Right" Width="30" Height="30"
                 Margin="0,0,10,0" Grid.Column="0" Grid.Row="1" ToolTip="Button save training"
-                cal:Action.TargetWithoutContext="{Binding Path=DataContext.tConteiner, RelativeSource={RelativeSource Self}}"
-                cal:Message.Attach="[Event Click]=[Action SaveToFile()]"
+                cal:Message.Attach="[Event Click]=[Action Save()]"
                 IsEnabled="{Binding CanApplyTSave}"/>
 
         <ListBox x:Name="comboBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,5,0"
-                  ItemsSource="{Binding tConteiner.TrainingSets}"
+                  ItemsSource="{Binding TrainingSets}" DataContext="{Binding tConteiner}"
+                  SelectedItem="{Binding SelectedTItem, Mode=TwoWay}" 
                   Grid.Column="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -75,11 +75,25 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel Orientation="Vertical" Grid.Column="0">
                                 <TextBlock HorizontalAlignment="Left" Text="{Binding TrainingData, Converter={StaticResource DateToString}}" />
-                                <TextBlock HorizontalAlignment="Left" Text="{Binding Sets, Converter={StaticResource IntToString}}" />
+                                <ListBox IsHitTestVisible="False" Background="{x:Null}"
+                                         ItemsSource="{Binding Sets, Mode=TwoWay}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Count}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
                                 <TextBlock HorizontalAlignment="Left" Text="{Binding TotalCount}" />
                             </StackPanel>
                             <Button Foreground="Red" Content="X" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="1" 
-                                    cal:Action.TargetWithoutContext="{Binding ElementName=LoadTrainingFromFile, Path=DataContext.tConteiner}" 
+                                    cal:Action.TargetWithoutContext="{Binding ElementName=AddTraining, Path=DataContext.tManager}" 
                                     cal:Message.Attach="Remove($this)" Margin="5,0,0,0"/>
                         </Grid>
                     </Border>
@@ -87,11 +101,10 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <Button Name="LoadTrainingFromFile" Grid.Column="1" Grid.Row="1" Margin="0,0,50,10" VerticalAlignment="Bottom" Content="Load" HorizontalAlignment="Right" Width="40" Height="30"
-                cal:Action.TargetWithoutContext="{Binding tConteiner}"
-                cal:Message.Attach="LoadFromFile()"/>
-        <Button Grid.Column="1" Grid.Row="1" Margin="0,0,10,10" VerticalAlignment="Bottom" Content="➕" HorizontalAlignment="Right" Width="30" Height="30"
-                cal:Action.TargetWithoutContext="{Binding tConteiner}"
-                cal:Message.Attach="Pluss()"
-                IsEnabled="{Binding CanApplyTPluss}"/>
+                cal:Message.Attach="Load()"/>
+        <Button Name="AddTraining" Grid.Column="1" Grid.Row="1" Margin="0,0,10,10" VerticalAlignment="Bottom" Content="➕" HorizontalAlignment="Right" Width="30" Height="30"
+                cal:Action.TargetWithoutContext="{Binding tManager}"
+                cal:Message.Attach="Add()"
+                IsEnabled="{Binding CanApplyTAdd}"/>
     </Grid>
 </UserControl>
