@@ -8,35 +8,35 @@ namespace Module.Utils
 {
   public class StringUtils
   {
-    public static string RemoveUnwantedChar(string input, string regexRule)
-    {
-      if (string.IsNullOrEmpty(input)) return string.Empty;
-      var stringBuilder = new StringBuilder();
+    //public static string RemoveUnwantedChar(string input, string regexRule)
+    //{
+    //  if (string.IsNullOrEmpty(input)) return string.Empty;
+    //  var stringBuilder = new StringBuilder();
 
-      foreach (var match in Regex.Matches(input, regexRule))
-        stringBuilder.Append(match);
-      return stringBuilder.ToString();
-    }
+    //  foreach (var match in Regex.Matches(input, regexRule))
+    //    stringBuilder.Append(match);
+    //  return stringBuilder.ToString();
+    //}
 
-    public static bool CheckStringISNumber(string checkString)
-    {
-      return (!string.IsNullOrEmpty(checkString) && checkString.All(char.IsDigit));
-    }
+    //public static bool CheckStringISNumber(string checkString)
+    //{
+    //  return (!string.IsNullOrEmpty(checkString) && checkString.All(char.IsDigit));
+    //}
 
-    public static string GetAllNumberFromString(string value)
-    {
-      string countPullUps = RemoveUnwantedChar(value, RegularExpressions.AllNumbers);
-      if (CheckStringISNumber(countPullUps))
-      {
-        int intCountSets = Convert.ToInt32(countPullUps);
-        if (intCountSets > 20)
-        {
-          return "20";
-        }
-        else return countPullUps;
-      }
-      return "";
-    }
+    //public static string GetAllNumberFromString(string value)
+    //{
+    //  string countPullUps = RemoveUnwantedChar(value, RegularExpressions.AllNumbers);
+    //  if (CheckStringISNumber(countPullUps))
+    //  {
+    //    int intCountSets = Convert.ToInt32(countPullUps);
+    //    if (intCountSets > 20)
+    //    {
+    //      return "20";
+    //    }
+    //    else return countPullUps;
+    //  }
+    //  return "";
+    //}
     //public string[] GetSubstringFromListTrainingSets(string stringListTrainingSets)
     //{
     //  if (stringListTrainingSets.Length > 2)

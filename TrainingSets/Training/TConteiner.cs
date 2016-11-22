@@ -1,15 +1,8 @@
 ﻿using Caliburn.Micro;
-using Module.Utils;
-using Module.Validator;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Linq;
 
-namespace Module.Training
+namespace TrainingSets.Training
 {
   public class TConteiner : PropertyChangedBase
   {
@@ -17,6 +10,23 @@ namespace Module.Training
     private int _maxCountPullUps = 20;
     private int _averageCountPullUps = 4;
     public bool isChange = false;
+
+    public TConteiner()
+    {
+      OnActivate();
+    }
+
+    protected void OnActivate()
+    {
+      TrainingSets.CollectionChanged += OnCollectionChanged;
+      OnDataChange();
+    }
+
+    protected void OnDeactivate()
+    {
+      TrainingSets.CollectionChanged -= OnCollectionChanged;
+      OnDataChange();
+    }
 
     public delegate void DataChangesEventHandler();
     public event DataChangesEventHandler DataChanged;
@@ -57,7 +67,7 @@ namespace Module.Training
         NotifyOfPropertyChange(() => SelectedTItem);
         NotifyOfPropertyChange(() => CountPullUps);
         OnDataChange();
-       }
+      }
     }
 
     private int _countPullUps;
@@ -68,7 +78,7 @@ namespace Module.Training
       {
         if (_countPullUps == value) return;
         {
-          if (value > 0)
+          if (value > default(int))
           {
             _countPullUps = GetCountPullUps(value);
             ChangeCountSets(SelectedTItem);

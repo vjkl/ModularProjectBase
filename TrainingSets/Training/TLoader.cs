@@ -1,7 +1,7 @@
-﻿using Module.Utils;
+﻿using TrainingSets.Utils;
 using System.Collections.ObjectModel;
 
-namespace Module.Training
+namespace TrainingSets.Training
 {
   public class TLoader
   {

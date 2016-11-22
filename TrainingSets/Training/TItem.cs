@@ -1,10 +1,10 @@
 ﻿using Caliburn.Micro;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using BioContracts.Castle;
 
-namespace Module.Training
+namespace TrainingSets.Training
 {
   [JsonObject(MemberSerialization.OptIn)]
   public class TItem : PropertyChangedBase

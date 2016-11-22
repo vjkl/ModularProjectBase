@@ -5,8 +5,8 @@
     public PropertyValidationError(object instance, string propertyName, string message)
     {
       Instance = instance;
-      Key = propertyName;
-      Message = message;
+      Key      = propertyName;
+      Message  = message;
     }
 
     public object Instance { get; private set; }

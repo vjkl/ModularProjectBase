@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System.Windows;
 
-namespace Module.Utils
+namespace TrainingSets.Utils
 {
-  public class JsonIO
+  class JsonIO
   {
     public string SerializeObject<T>(T inputString)
     {

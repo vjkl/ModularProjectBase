@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace Module.Validator
 {
-  class PropertyValidator : IValidator
+  public class PropertyValidator : IValidator
   {
     public string GetSinglePropertyError(object instance, string columnName)
     {

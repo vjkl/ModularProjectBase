@@ -1,9 +1,5 @@
-﻿using Module.Training;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
 using System.Globalization;
-using System.Linq;
 using System.Windows.Data;
 
 namespace Module.Convertors
@@ -12,25 +8,25 @@ namespace Module.Convertors
   {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if (value != null && value is IList<OneSet>)
-      {
-        var newvalue = value as IList<OneSet>;
-        string strNewvalue = "";
-        //int i = 1;
-        if (newvalue.Count() == 0)
-          return null;
+      //if (value != null && value is IList<OneSet>)
+      //{
+      //  var newvalue = value as IList<OneSet>;
+      //  string strNewvalue = "";
+      //  //int i = 1;
+      //  if (newvalue.Count() == 0)
+      //    return null;
 
-        for (int i = 0; newvalue.Count() > i; ++i)
-        {
-          strNewvalue += "[" + i + "," + newvalue[i].Count + "],";
-        }
-        //  foreach (int item in newvalue)
-        //{
-        //  strNewvalue += "[" + i + "," + item + "],";
-        //  i++;
-        //}
-        return strNewvalue.Substring(0, strNewvalue.Length - 1);
-      }
+      //  for (int i = 0; newvalue.Count() > i; ++i)
+      //  {
+      //    strNewvalue += "[" + i + "," + newvalue[i].Count + "],";
+      //  }
+      //  //  foreach (int item in newvalue)
+      //  //{
+      //  //  strNewvalue += "[" + i + "," + item + "],";
+      //  //  i++;
+      //  //}
+      //  return strNewvalue.Substring(0, strNewvalue.Length - 1);
+      //}
       return null;
     }
 

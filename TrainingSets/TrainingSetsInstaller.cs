@@ -1,18 +1,16 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Module.ViewModels;
 using BioContracts.Castle;
 
-namespace Module
+namespace TrainingSets
 {
-  public class ModuleInstaller : IWindsorInstaller
+  public class TrainingSetsInstaller : IWindsorInstaller
   {
     public void Install(IWindsorContainer container, IConfigurationStore store)
     {
       container
-          .Register(Component.For<TabViewModel>())
-          .Register(Component.For<IModule>().ImplementedBy<ModuleImpl>());
+        .Register(Component.For<IModule>().ImplementedBy<TrainingSetsImpl>());
     }
   }
 }
