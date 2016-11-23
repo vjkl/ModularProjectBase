@@ -11,7 +11,6 @@ namespace Module
     public void Install(IWindsorContainer container, IConfigurationStore store)
     {
       container
-          .Register(Component.For<TabViewModel>())
           .Register(Component.For<IModule>().ImplementedBy<ModuleImpl>());
     }
   }

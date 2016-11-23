@@ -56,6 +56,10 @@
       <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Dragablz, Version=0.0.3.178, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dragablz.0.0.3.178\lib\net45\Dragablz.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -98,6 +102,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\ViewModelsContainer .cs" />
     <Compile Include="Utils\DialogUtil.cs" />
     <Compile Include="Validator\PropertyValidationError.cs" />
     <Compile Include="Validator\IValidator.cs" />
@@ -113,8 +118,16 @@
     <Compile Include="ModuleInstaller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\TabViewModel.cs" />
+    <Compile Include="ViewModels\TrainingChartViewModel.cs" />
+    <Compile Include="ViewModels\TrainingViewModel.cs" />
     <Compile Include="Views\TabView.xaml.cs">
       <DependentUpon>TabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TrainingChartView.xaml.cs">
+      <DependentUpon>TrainingChartView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TrainingView.xaml.cs">
+      <DependentUpon>TrainingView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -126,7 +139,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\TabViewStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TrainingChartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TrainingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
