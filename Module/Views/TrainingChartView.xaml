@@ -4,9 +4,68 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Module.Views"
+             xmlns:convertors="clr-namespace:Module.Convertors"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="500">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <convertors:IntToMargin x:Key="IntToMargin"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid>
-        <TextBox Text="Chart 2!"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Number pull ups in one workout" Foreground="#118C4E" Height="20" Width="200"  RenderTransformOrigin="0.5,0.5"
+                   HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                   Margin="-65,0,0,150" Grid.Column="0" Grid.ColumnSpan="2">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+        <ScrollViewer BorderBrush="#7E8F7C" BorderThickness="1"
+                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                      Background="#C1CDCC" Margin="0,50,50,50" Grid.Column="1"
+                      HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Training.TConteiner.TrainingSets}"
+                      AlternationCount="{Binding Training.TConteiner.TrainingSets.Count}">
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="FrameworkElement">
+                        <Setter Property="Margin" >
+                            <Setter.Value>
+                                <MultiBinding Converter="{StaticResource IntToMargin}">
+                                    <Binding RelativeSource="{RelativeSource Self}" Path="(ItemsControl.AlternationIndex)" />
+                                    <Binding Path="TotalCount" />
+                                </MultiBinding>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                        <Setter Property="VerticalAlignment" Value="Bottom"/>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <TextBlock FontSize="8" Foreground="Black" Text="{Binding TotalCount}"
+                                   TextWrapping="Wrap" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+                            <Ellipse Fill="Red" Width="8" Height="8"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </UserControl>

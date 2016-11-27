@@ -1,17 +1,19 @@
-﻿using Caliburn.Micro;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BioContracts.Castle;
+using Caliburn.Micro;
+using Castle.Windsor;
 
 namespace Module.ViewModels
 {
   public class TrainingChartViewModel : Screen
   {
-    public TrainingChartViewModel()
+    private readonly IWindsorContainer _container;
+    public ITraining Training { get; }
+
+    public TrainingChartViewModel(IWindsorContainer container)
     {
       DisplayName = "Chart";
+      _container = container;
+      Training = container.Resolve<ITraining>();
     }
   }
 }

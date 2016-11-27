@@ -10,7 +10,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="500"
              d:DataContext="{d:DesignInstance viewModels:TrainingViewModel, IsDesignTimeCreatable=False}">
-    
+
     <UserControl.Resources>
         <ResourceDictionary>
             <convertors:IntToString x:Key="IntToString"/>
@@ -19,8 +19,8 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300*"/>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="270*"/>
+            <ColumnDefinition Width="230"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -28,15 +28,15 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal">
-            <Label Foreground="#FFBCC32C">Input the number of pull-ups (max 20):</Label>
-            <TextBox HorizontalAlignment="Left" Height="20" Margin="5,5,0,0" 
+            <Label Foreground="#118C4E">Input the number of pull-ups (max 20):</Label>
+            <TextBox HorizontalAlignment="Left" Height="20" Margin="5,5,0,0" Background="Transparent"
                  TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Grid.Column="0" Grid.Row="0"
                  Text="{Binding Training.TConteiner.CountPullUps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
         <ItemsControl ItemsSource="{Binding SelectedTItem.Sets, Mode=TwoWay}" DataContext="{Binding Training.TConteiner}" Grid.Row="0" Margin="0,50,0,0">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <TextBox Margin="5,0,0,0" Width="50" Height="10" 
+                    <TextBox Margin="5,0,0,0" Width="40" Height="10" 
                              HorizontalAlignment="Left" 
                              VerticalAlignment="Top"                        
                              Text="{Binding Count, Mode=TwoWay
@@ -52,27 +52,22 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
-        <Button cal:Action.TargetWithoutContext="{Binding Training}"
-                cal:Message.Attach="[Event Click]=[Action RefreshUi()]" Content="Upgrade"
-                Height="30" Width="50"
-                Margin="10,0,0,0" Grid.Column="0" Grid.Row="1"
-                HorizontalAlignment="Left"/>
         <Button x:Name="button" Content="✔" HorizontalAlignment="Right" Width="30" Height="30"
                 Margin="0,0,10,0" Grid.Column="0" Grid.Row="1" ToolTip="Button save training"
                 cal:Action.TargetWithoutContext="{Binding Training}"
                 cal:Message.Attach="[Event Click]=[Action Save()]"
                 IsEnabled="{Binding Training.CanApplyTSave}"/>
 
-        <ListBox x:Name="comboBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,5,5,0"
-                  ItemsSource="{Binding TrainingSets}" DataContext="{Binding Training.TConteiner}"
-                  SelectedItem="{Binding SelectedTItem, Mode=TwoWay}" 
-                  Grid.Column="1">
+        <ListBox x:Name="comboBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,5,5,5"
+                 Grid.Column="1" Background="Transparent"
+                 ItemsSource="{Binding TrainingSets}" DataContext="{Binding Training.TConteiner}"
+                 SelectedItem="{Binding SelectedTItem, Mode=TwoWay}" BorderBrush="#C1CDCC" BorderThickness="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="Gray" BorderThickness="1" Margin="0,5,0,0">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="275*"/>
+                                <ColumnDefinition Width="205*"/>
                                 <ColumnDefinition Width="25"/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Orientation="Vertical" Grid.Column="0">
@@ -96,7 +91,7 @@
                             </StackPanel>
                             <Button Foreground="Red" Content="X" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="1" 
                                     cal:Action.TargetWithoutContext="{Binding ElementName=AddTraining, Path=DataContext.Training.TConteiner}" 
-                                    cal:Message.Attach="Remove($this)" Margin="5,0,0,0"/>
+                                    cal:Message.Attach="Remove($this)" Margin="2,2,2,2"/>
                         </Grid>
                     </Border>
                 </DataTemplate>

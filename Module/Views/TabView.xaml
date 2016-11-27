@@ -14,44 +14,18 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/materialdesign.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Dragablz;component/Themes/Generic.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Module;component/Styles/TabViewStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <DataTemplate DataType="{x:Type viewModels:TrainingViewModel}">
-                <local:TrainingView x:Name="ActiveItem" DataContext="{Binding Mode=OneWay}"/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModels:TrainingChartViewModel}">
-                <local:TrainingChartView x:Name="ActiveItem" DataContext="{Binding Mode=OneWay}"/>
-            </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
-        <dragablz:TabablzControl
+        <dragablz:TabablzControl 
             x:Name="TabControl" Margin="0,0,0,0" Background="#FF2D2D30"
                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"                                 
                                  SelectedItem="{Binding ActiveItem, Mode=TwoWay}"      
-                                 ItemsSource="{Binding Items}" >
-            <dragablz:TabablzControl.InterTabController>
-                <dragablz:InterTabController />
-            </dragablz:TabablzControl.InterTabController>
-
-            <dragablz:TabablzControl.ContentTemplate>
-                <DataTemplate >
-                    <ContentControl Margin="2,2,2,2" Content="{Binding}"/>
-                </DataTemplate>
-            </dragablz:TabablzControl.ContentTemplate>
-
-            <dragablz:TabablzControl.HeaderItemTemplate>
-                <DataTemplate >
-                    <Grid Background="Transparent" DataContext="{Binding}" IsHitTestVisible="False">
-                        <TextBlock Text="{Binding DisplayName}" 
-                                   TextWrapping="WrapWithOverflow" MaxWidth="100"
-                                   TextAlignment="Center" TextTrimming="WordEllipsis" 
-                                   FontSize="11" Foreground="Black" />
-                    </Grid>
-                </DataTemplate>
-            </dragablz:TabablzControl.HeaderItemTemplate>
-        </dragablz:TabablzControl>
+                                 ItemsSource="{Binding Items}" 
+                                 HeaderItemTemplate="{StaticResource TabHeaderDataTemplate}"
+                                 ContentTemplate="{StaticResource TabContentDataTemplate}"/>
     </Grid>
 </UserControl>
