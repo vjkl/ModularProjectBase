@@ -151,9 +151,9 @@ namespace TrainingSets.Training
 
     private void ChangeCountSets(TItem tItem, int amountSets)
     {
-      for (int i = amountSets; i < _countPullUps; i++)
+      for (int i = amountSets; i < CountPullUps; i++)
         tItem.Add(new OneSet());
-      for (int i = amountSets; i > _countPullUps; i--)
+      for (int i = amountSets; i > CountPullUps; i--)
         tItem.Remove(tItem.Sets[tItem.Sets.Count - 1]);
     }
   }

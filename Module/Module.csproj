@@ -174,6 +174,10 @@
       <Project>{4cbdb4c3-158b-4ed8-8999-068789a537a0}</Project>
       <Name>BioContracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TrainingSets\TrainingSets.csproj">
+      <Project>{1A394B79-C4B3-41EC-A48D-6B4A8DAC2AF9}</Project>
+      <Name>TrainingSets</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

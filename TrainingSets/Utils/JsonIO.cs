@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace TrainingSets.Utils
 {
-  class JsonIO
+  public class JsonIO
   {
     public string SerializeObject<T>(T inputString)
     {

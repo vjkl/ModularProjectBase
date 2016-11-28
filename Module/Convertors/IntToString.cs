@@ -4,10 +4,10 @@ using System.Windows.Data;
 
 namespace Module.Convertors
 {
-  public class IntToString : IValueConverter
+  public class IntToString /*: IValueConverter*/
   {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
+    //public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    //{
       //if (value != null && value is IList<OneSet>)
       //{
       //  var newvalue = value as IList<OneSet>;
@@ -27,12 +27,12 @@ namespace Module.Convertors
       //  //}
       //  return strNewvalue.Substring(0, strNewvalue.Length - 1);
       //}
-      return null;
-    }
+    //  return null;
+    //}
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-      return new NotImplementedException();
-    }
+    //public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    //{
+    //  return new NotImplementedException();
+    //}
   }
 }
