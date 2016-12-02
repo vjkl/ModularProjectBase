@@ -13,17 +13,14 @@ namespace ModuleTest.Convertors
   {
     private IntToMargin intToMargin = new IntToMargin();
 
-    [Fact]
-    public void ConvertTest()
+    [Theory]
+    [InlineData(0, 10)]
+    public void ConvertTest(double left, double bottom)
     {
-      Thickness actualeThickness;
-      object[] values = new object[2];
-
-      values[0] = 1;
-      values[1] = 2;
-      actualeThickness = (Thickness)intToMargin.Convert(values, null, null, null);
-
-      Assert.Equal(new Thickness(20,0,0,2), actualeThickness);
+      object[] marginPoint = { left, bottom };
+      Thickness expectedThickness = new Thickness(10, 0, 0, 10);
+      Thickness actualeThickness = (Thickness)intToMargin.Convert(marginPoint, null, null, null);
+      Assert.Equal(expectedThickness, actualeThickness);
     }
   }
 }

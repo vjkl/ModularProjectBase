@@ -10,8 +10,8 @@ namespace Module.Convertors
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
       if (DependencyProperty.UnsetValue == values[0] || DependencyProperty.UnsetValue == values[1]) return default(int);
-      int index = ((int)values[0] + 1) * 10;
-      int totalPullIps = (int)values[1];
+      double index = (System.Convert.ToDouble(values[0]) + 1) * 10;
+      double totalPullIps = System.Convert.ToDouble(values[1]);
       return new Thickness(index,
                            0,
                            0,

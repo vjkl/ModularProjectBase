@@ -27,7 +27,7 @@ namespace TrainingSets.Utils
       return Read(path);
     }
 
-    public void Save(string contents, string path)
+    public bool Save(string contents, string path)
     {
       if (File.Exists(path))
       {
@@ -36,12 +36,15 @@ namespace TrainingSets.Utils
         try
         {
           File.WriteAllText(path, contents, Encoding.UTF8);
+          return true;
         }
         catch (UnauthorizedAccessException ex)
         {
           MessageBox.Show(ex.Message);
+          return false;
         }
       }
+      return false;
     }
   }
 }

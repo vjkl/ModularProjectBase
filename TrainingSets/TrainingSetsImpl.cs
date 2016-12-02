@@ -22,7 +22,7 @@ namespace TrainingSets
 
     public void Init()
     {
-      _container.Register(Component.For<ITraining>().ImplementedBy<TManager>());
+      _container.Register(Component.For<ITraining>().ImplementedBy<TrainingManager>());
     }
   }
 }

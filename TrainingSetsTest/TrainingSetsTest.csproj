@@ -81,9 +81,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Training\TConteinerTest.cs" />
-    <Compile Include="Training\TItemTest.cs" />
-    <Compile Include="Training\TLoaderTest.cs" />
+    <Compile Include="Training\TrainingConteinerTest.cs" />
+    <Compile Include="Training\TrainingItemTest.cs" />
+    <Compile Include="Training\TrainingLoaderTest.cs" />
     <Compile Include="Utils\FileIOTest.cs" />
     <Compile Include="Utils\JsonIOTest.cs" />
   </ItemGroup>

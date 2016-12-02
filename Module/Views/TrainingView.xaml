@@ -13,8 +13,8 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <convertors:IntToString x:Key="IntToString"/>
-            <convertors:DateToString x:Key="DateToString"/>
+            <convertors:IntToMargin x:Key="IntToMargin"/>
+            <convertors:IntToBool x:Key="IntToBool"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -31,12 +31,12 @@
             <Label Foreground="#118C4E">Input the number of pull-ups (max 20):</Label>
             <TextBox HorizontalAlignment="Left" Height="20" Margin="5,5,0,0" Background="Transparent"
                  TextWrapping="Wrap" VerticalAlignment="Top" Width="70" Grid.Column="0" Grid.Row="0"
-                 Text="{Binding Training.TConteiner.CountPullUps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                 Text="{Binding Training.TConteiner.SelectedTItem.CountPullUps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
         <ItemsControl ItemsSource="{Binding SelectedTItem.Sets, Mode=TwoWay}" DataContext="{Binding Training.TConteiner}" Grid.Row="0" Margin="0,50,0,0">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <TextBox Margin="5,0,0,0" Width="40" Height="10" 
+                    <TextBox Margin="5,0,0,0" Width="50" Height="10" 
                              HorizontalAlignment="Left" 
                              VerticalAlignment="Top"                        
                              Text="{Binding Count, Mode=TwoWay
@@ -54,40 +54,72 @@
         </ItemsControl>
         <Button x:Name="button" Content="✔" HorizontalAlignment="Right" Width="30" Height="30"
                 Margin="0,0,10,0" Grid.Column="0" Grid.Row="1" ToolTip="Button save training"
-                cal:Action.TargetWithoutContext="{Binding Training}"
                 cal:Message.Attach="[Event Click]=[Action Save()]"
-                IsEnabled="{Binding Training.CanApplyTSave}"/>
+                IsEnabled="{Binding Training.CanSave}"/>
 
-        <ListBox x:Name="comboBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,5,5,5"
-                 Grid.Column="1" Background="Transparent"
-                 ItemsSource="{Binding TrainingSets}" DataContext="{Binding Training.TConteiner}"
-                 SelectedItem="{Binding SelectedTItem, Mode=TwoWay}" BorderBrush="#C1CDCC" BorderThickness="1">
+        <ListBox x:Name="comboBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5,5,5,5" Grid.Column="1"
+                 Background="Transparent" BorderBrush="#C1CDCC" BorderThickness="1"
+                 ItemsSource="{Binding SortByDateTrainingSets}" DataContext="{Binding Training.TConteiner}"
+                 SelectedItem="{Binding SelectedTItem, Mode=TwoWay}" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderBrush="Gray" BorderThickness="1" Margin="0,5,0,0">
+                    <Border Name="PropertyTriggerBorder" BorderThickness="1" Margin="0,5,5,0">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsNew, Mode=OneWay}" Value="False">
+                                        <Setter Property="BorderBrush" Value="Gray" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsNew, Mode=OneWay}" Value="True">
+                                        <Setter Property="BorderBrush" Value="Orange" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="205*"/>
                                 <ColumnDefinition Width="25"/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Orientation="Vertical" Grid.Column="0">
-                                <TextBlock HorizontalAlignment="Left" Text="{Binding TrainingData, Converter={StaticResource DateToString}}" />
-                                <ListBox IsHitTestVisible="False" Background="{x:Null}"
-                                         ItemsSource="{Binding Sets, Mode=TwoWay}">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel>
-                                                <TextBlock Text="{Binding Count}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                    <ListBox.ItemsPanel>
+                                <TextBlock HorizontalAlignment="Left" Text="{Binding TrainingData, StringFormat=Date: {0:dd/MM/yyyy}}" />
+                                <ItemsControl IsHitTestVisible="False" Background="{x:Null}"
+                                             ItemsSource="{Binding Sets, Mode=TwoWay}" AlternationCount="{Binding Sets.Count}" >
+                                    <ItemsControl.ItemContainerStyle>
+                                        <Style TargetType="ContentPresenter">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=(ItemsControl.AlternationIndex), Converter={StaticResource IntToBool}}" Value="True">
+                                                    <Setter Property="ContentTemplate" >
+                                                        <Setter.Value>
+                                                            <DataTemplate>
+                                                                <StackPanel>
+                                                                    <TextBlock Text="{Binding Count, StringFormat='Pull ups: {0}'}"/>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=(ItemsControl.AlternationIndex), Converter={StaticResource IntToBool}}" Value="False">
+                                                    <Setter Property="ContentTemplate" >
+                                                        <Setter.Value>
+                                                            <DataTemplate>
+                                                                <StackPanel>
+                                                                    <TextBlock Text="{Binding Count, StringFormat=', {0}'}"/>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ItemsControl.ItemContainerStyle>
+                                    <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Horizontal"/>
                                         </ItemsPanelTemplate>
-                                    </ListBox.ItemsPanel>
-                                </ListBox>
-                                <TextBlock HorizontalAlignment="Left" Text="{Binding TotalCount}" />
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                                <TextBlock HorizontalAlignment="Left" Text="{Binding TotalCount, StringFormat=Total sum: {0}}" />
                             </StackPanel>
                             <Button Foreground="Red" Content="X" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="1" 
                                     cal:Action.TargetWithoutContext="{Binding ElementName=AddTraining, Path=DataContext.Training.TConteiner}" 
@@ -101,7 +133,6 @@
                 cal:Message.Attach="Load()"/>
         <Button Name="AddTraining" Grid.Column="1" Grid.Row="1" Margin="0,0,10,10" VerticalAlignment="Bottom" Content="➕" HorizontalAlignment="Right" Width="30" Height="30"
                 cal:Action.TargetWithoutContext="{Binding Training.TConteiner}"
-                cal:Message.Attach="Add()"
-                IsEnabled="{Binding Training.CanApplyTAdd}"/>
+                cal:Message.Attach="Add()" />
     </Grid>
 </UserControl>

@@ -4,12 +4,10 @@ using Newtonsoft.Json;
 namespace TrainingSets.Training
 {
   [JsonObject(MemberSerialization.OptIn)]
-  public class OneSet : PropertyChangedBase
+  public class TrainingSet : PropertyChangedBase
   {
-    public bool NoErrors = true;
-
-    public OneSet() { }
-    public OneSet(int count)
+    public TrainingSet() { }
+    public TrainingSet(int count)
     {
       Count = count;
     }
@@ -35,9 +33,9 @@ namespace TrainingSets.Training
       }
     }
 
-    public OneSet Clone()
+    public TrainingSet Clone()
     {
-      return new OneSet(Count);
+      return new TrainingSet(Count);
     }
   }
 }

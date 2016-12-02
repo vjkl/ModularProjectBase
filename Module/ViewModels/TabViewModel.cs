@@ -1,8 +1,9 @@
-﻿using System;
+﻿using BioContracts.Castle;
+using BioContracts.Logging;
+using Caliburn.Micro;
+using System;
 using System.Linq;
 using System.Windows.Threading;
-using BioContracts.Castle;
-using Caliburn.Micro;
 
 namespace Module.ViewModels
 {
@@ -10,7 +11,7 @@ namespace Module.ViewModels
   {
     private readonly IContainer _container;
     private Dispatcher _dispatcher;
-    //private ILogger _logger;
+    private ILogger _logger;
 
     public IScreen DefaultPage { get; set; }
 
@@ -32,7 +33,7 @@ namespace Module.ViewModels
       }
       catch (Exception exception)
       {
-        //_logger?.Error(exception);
+        _logger?.Error(exception);
       }
     }
 
@@ -68,12 +69,12 @@ namespace Module.ViewModels
     {
       try
       {
-        //_logger = _container.Resolve<ILogger>();
+        _logger = _container.Resolve<ILogger>();
         _dispatcher = _container.Resolve<Dispatcher>();
       }
       catch (Exception exception)
       {
-        //_logger?.Error(exception);
+        _logger?.Error(exception);
       }
     }
   }

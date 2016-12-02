@@ -116,17 +116,12 @@
   <ItemGroup>
     <Compile Include="Base\ViewModelsContainer .cs" />
     <Compile Include="Convertors\IntToMargin.cs" />
+    <Compile Include="Convertors\IntToBool.cs" />
     <Compile Include="Utils\DialogUtil.cs" />
     <Compile Include="Validator\PropertyValidationError.cs" />
     <Compile Include="Validator\IValidator.cs" />
-    <Compile Include="Convertors\DateToString.cs" />
-    <Compile Include="Convertors\IntToString.cs" />
-    <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Validator\PropertyValidator.cs" />
     <Compile Include="Validator\RegularExpressions.cs" />
-    <Compile Include="ConvertorIncludes.xaml.cs">
-      <DependentUpon>ConvertorIncludes.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ModuleImpl .cs" />
     <Compile Include="ModuleInstaller.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -148,10 +143,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ConvertorIncludes.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Styles\TabViewStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

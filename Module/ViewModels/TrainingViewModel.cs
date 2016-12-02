@@ -2,6 +2,7 @@
 using Module.Utils;
 using Castle.Windsor;
 using BioContracts.Castle;
+using System.Windows;
 
 namespace Module.ViewModels
 {
@@ -15,8 +16,12 @@ namespace Module.ViewModels
       DisplayName = "Training";
       _container = container;
       _training = container.Resolve<ITraining>();
-      OnActivate();
-      Training.Create();
+    }
+
+    private ITraining _training;
+    public ITraining Training
+    {
+      get { return _training; }
     }
 
     public void Load()
@@ -24,18 +29,13 @@ namespace Module.ViewModels
       Training.Load(dialogUtil.GetPathToFileFromDialog());
     }
 
-    private ITraining _training;
-    public ITraining Training
+    public void Save()
     {
-      get { return _training; }
-      set
-      {
-        if (_training == value) return;
-        {
-          _training = value;
-          NotifyOfPropertyChange(() => _training);
-        }
-      }
+      bool isSave = Training.Save();
+      if (isSave)
+        MessageBox.Show("Successful save trainings!");
+      else
+        MessageBox.Show("Unsuccessful save trainings!");
     }
   }
 }

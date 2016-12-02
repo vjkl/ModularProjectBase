@@ -67,6 +67,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Activities" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.3.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -80,11 +81,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TrainingSetsImpl.cs" />
     <Compile Include="TrainingSetsInstaller.cs" />
-    <Compile Include="Training\OneSet.cs" />
-    <Compile Include="Training\TConteiner.cs" />
-    <Compile Include="Training\TItem.cs" />
-    <Compile Include="Training\TLoader.cs" />
-    <Compile Include="Training\TManager.cs" />
+    <Compile Include="Training\TrainingSet.cs" />
+    <Compile Include="Training\TrainingConteiner.cs" />
+    <Compile Include="Training\TrainingItem.cs" />
+    <Compile Include="Training\TrainingLoader.cs" />
+    <Compile Include="Training\TrainingManager.cs" />
     <Compile Include="Utils\FileIO.cs" />
     <Compile Include="Utils\JsonIO.cs" />
   </ItemGroup>
