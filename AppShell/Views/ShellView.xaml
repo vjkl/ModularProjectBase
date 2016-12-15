@@ -19,13 +19,13 @@
 
     <controls:MetroWindow.Resources>
         <ResourceDictionary>
-           <SolidColorBrush x:Key="IdealForegroundColorBrush" Color="Gray"/>
+            <SolidColorBrush x:Key="IdealForegroundColorBrush" Color="Gray"/>
         </ResourceDictionary>
     </controls:MetroWindow.Resources>
-    
+
     <Grid>
         <Grid>
-            <Grid.ColumnDefinitions>
+            <!--<Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -36,19 +36,19 @@
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
 
-           <ContentControl Grid.Row="1" Grid.Column="0" x:Name="ToolBar" />
+            <ContentControl Grid.Row="1" Grid.Column="0" x:Name="ToolBar" />
 
-            <ContentControl Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Panel.ZIndex="100" x:Name="FlyoutControl"  />
+            <ContentControl Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Panel.ZIndex="100" x:Name="FlyoutControl"  />-->
 
             <ContentControl Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" x:Name="TabControl"  />
 
-            <ContentControl VerticalAlignment="Top" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" x:Name="MainMenu"/>
+            <!--<ContentControl VerticalAlignment="Top" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" x:Name="MainMenu"/>
 
             <ContentControl Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" x:Name="LoginInformation"/>
 
             <ContentControl VerticalAlignment="Stretch" Grid.Column="0" Grid.ColumnSpan="3" 
-                            Grid.Row="2" HorizontalAlignment="Stretch" x:Name="StatusControl"/>
-            
+                            Grid.Row="2" HorizontalAlignment="Stretch" x:Name="StatusControl"/>-->
+
         </Grid>
     </Grid>
 </controls:MetroWindow>
